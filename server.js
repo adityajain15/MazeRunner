@@ -1,7 +1,7 @@
 const Game = require("./game");
 const game = new Game();
-
-let port = process.env.PORT || 8000;
+console.log(process.env);
+let port = process.env.PORT || 8008;
 let express = require("express");
 let app = express();
 let server = require("http")
