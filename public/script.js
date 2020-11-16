@@ -59,7 +59,7 @@ socket.on("connect", () => {
     Game.SOLUTION = solution;
     drawMaze(Game.maze);
   });
-  window.addEventListener("keydown", (event) => {
+  window.addEventListener("keyup", (event) => {
     if (!Game.playerPositions || !Game.maze || Game.HAS_FINISHED) {
       return;
     }
