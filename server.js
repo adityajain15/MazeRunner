@@ -1,6 +1,5 @@
 const Game = require("./game");
 const game = new Game();
-console.log(process.env);
 let port = process.env.PORT || 8008;
 let express = require("express");
 let app = express();
