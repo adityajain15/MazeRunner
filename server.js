@@ -59,7 +59,7 @@ io.sockets.on("connection", function (socket) {
 
   // if socket moves
   socket.on("movePlayer", (direction) => {
-    if (!game.hasGameFinished()) {
+    if (!game.hasGameFinished() && game.playerCanMove(socket.id, direction)) {
       game.movePlayer(socket.id, direction);
       io.sockets.emit("playerPositions", game.getPlayerPositions());
       if (game.hasGameFinished()) {

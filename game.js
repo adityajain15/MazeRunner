@@ -50,6 +50,20 @@ class Game {
     return this.players;
   }
 
+  playerCanMove(id, KEY) {
+    const [i, j] = this.players[id];
+    const presentCell = this.maze.getCell(i, j);
+    if (
+      (KEY === "DOWN" && !presentCell.walls.DOWN) ||
+      (KEY === "UP" && !presentCell.walls.UP) ||
+      (KEY === "LEFT" && !presentCell.walls.LEFT) ||
+      (KEY === "RIGHT" && !presentCell.walls.RIGHT)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   movePlayer(id, KEY) {
     const [i, j] = this.players[id];
     if (KEY === "DOWN") {

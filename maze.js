@@ -62,6 +62,10 @@ class Maze {
     return this.solution;
   }
 
+  getCell(i, j) {
+    return this.maze[i][j];
+  }
+
   getGoal() {
     return this.goal;
   }
