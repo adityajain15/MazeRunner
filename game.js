@@ -1,7 +1,7 @@
 const Maze = require("./maze");
 class Game {
   constructor() {
-    this.maze = new Maze(10, 10);
+    this.maze = new Maze(30, 30);
     this.players = {};
     this.host = null;
     this.gameFinished = false;
@@ -30,7 +30,7 @@ class Game {
     return this.host;
   }
 
-  reset(height = 10, width = 10) {
+  reset(height = 30, width = 30) {
     this.maze = new Maze(height, width);
     Object.keys(this.players).forEach((player) => {
       this.players[player] = [0, 0];

@@ -7,8 +7,8 @@ const ctx = canvas.getContext("2d");
 resizeCanvas();*/
 const Game = {
   MARGIN: 5,
-  CELL_DIMENSION: 30,
-  PLAYER_DIMENSION: 15,
+  CELL_DIMENSION: 20,
+  PLAYER_DIMENSION: 10,
   HAS_FINISHED: false
 };
 
@@ -60,6 +60,10 @@ socket.on("connect", () => {
     drawMaze(Game.maze);
   });
   window.addEventListener("keydown", (event) => {
+    if (event.target.tagName === "INPUT") {
+      return;
+    }
+    event.preventDefault();
     if (!Game.playerPositions || !Game.maze || Game.HAS_FINISHED) {
       return;
     }
