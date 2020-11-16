@@ -16,6 +16,18 @@
     <div class="w-100">
       <canvas id="canvas" class="db center"></canvas>
     </div>
+    <div id="host-panel" class="w-50 center db tc mv3 dn">
+        <button class="dib mv2" onclick="hostRestart()">Restart</button>
+        <div class="db mv2">
+          <label for="name">Enter Width:</label>
+          <input name="width" id="maze-width" type="number" min="5" max="70"/>
+        </div>
+        <div class="db mv2">
+          <label for="name">Enter Height:</label>
+          <input name="width" id="maze-height" type="number" min="5" max="70"/>
+        </div>
+    </div>
+
 
     <script src="script.js"></script>
     <link

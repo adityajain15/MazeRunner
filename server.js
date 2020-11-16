@@ -1,5 +1,5 @@
 const Game = require("./game");
-const game = new Game();
+let game = new Game();
 let port = process.env.PORT || 8008;
 let express = require("express");
 let app = express();
@@ -20,12 +20,40 @@ io.sockets.on("connection", function (socket) {
   // initial information
   socket.emit("maze", game.getMaze());
   game.addPlayer(socket.id);
+  socket.emit("currentHost", game.getHost());
   io.sockets.emit("playerPositions", game.getPlayerPositions());
+
+  socket.on("hostRestart", ({ height, width }) => {
+    if (socket.id === game.getHost()) {
+      console.log(`recieved reset from host [${height},${width}]`);
+      const heightIsValid =
+        !Number.isNaN(height) && height >= 5 && height <= 70;
+      const widthIsValid = !Number.isNaN(width) && width >= 5 && width <= 70;
+      if (heightIsValid && widthIsValid) {
+        game.reset(height, width);
+      } else {
+        game.reset();
+      }
+      io.sockets.emit("maze", game.getMaze());
+      io.sockets.emit("playerPositions", game.getPlayerPositions());
+      io.sockets.emit("hostRestart");
+    }
+  });
 
   // disconnection code
   socket.on("disconnect", function () {
     console.log(`${socket.id} has disconnected`);
     game.removePlayer(socket.id);
+
+    if (!game.hasPlayers()) {
+      game = new Game();
+      return;
+    }
+
+    if (game.getHost() === socket.id) {
+      game.changeHost();
+      io.sockets.emit("currentHost", game.getHost());
+    }
     io.sockets.emit("playerPositions", game.getPlayerPositions());
   });
 

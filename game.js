@@ -3,14 +3,43 @@ class Game {
   constructor() {
     this.maze = new Maze(10, 10);
     this.players = {};
+    this.host = null;
     this.gameFinished = false;
   }
   addPlayer(id) {
+    if (!this.host) {
+      this.host = id;
+    }
     this.players[id] = [0, 0];
   }
 
   removePlayer(id) {
     delete this.players[id];
+  }
+
+  changeHost() {
+    const otherPlayers = Object.keys(this.players);
+    if (otherPlayers.length) {
+      this.host = otherPlayers[0];
+    } else {
+      this.host = null;
+    }
+  }
+
+  getHost() {
+    return this.host;
+  }
+
+  reset(height = 10, width = 10) {
+    this.maze = new Maze(height, width);
+    Object.keys(this.players).forEach((player) => {
+      this.players[player] = [0, 0];
+    });
+    this.gameFinished = false;
+  }
+
+  hasPlayers() {
+    return Object.keys(this.players).length > 0;
   }
 
   getMaze() {

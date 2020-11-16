@@ -12,12 +12,41 @@ const Game = {
   HAS_FINISHED: false
 };
 
+function hostRestart() {
+  if (socket && socket.connected) {
+    const width = document.getElementById("maze-width").value;
+    const height = document.getElementById("maze-height").value;
+    socket.emit("hostRestart", { width, height });
+  }
+}
+
 const socket = io();
 socket.on("connect", () => {
   console.log("Connected to Server");
+  socket.on("currentHost", (host) => {
+    Game.HOST = host;
+    if (Game.HOST === socket.id) {
+      document.getElementById("host-panel").classList.remove("dn");
+      document.getElementById("host-panel").classList.add("db");
+    } else {
+      document.getElementById("host-panel").classList.remove("db");
+      document.getElementById("host-panel").classList.add("dn");
+    }
+  });
+  socket.on("hostRestart", () => {
+    Game.SOLUTION = undefined;
+    Game.HAS_FINISHED = false;
+    drawMaze(Game.maze);
+  });
   socket.on("maze", (maze) => {
     console.log("Recieved maze");
     Game.maze = maze;
+    if (!document.getElementById("maze-width").value) {
+      document.getElementById("maze-width").value = maze[0].length;
+    }
+    if (!document.getElementById("maze-height").value) {
+      document.getElementById("maze-height").value = maze.length;
+    }
     drawMaze(Game.maze);
   });
   socket.on("playerPositions", (playerPositions) => {
