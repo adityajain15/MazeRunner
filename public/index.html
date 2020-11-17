@@ -7,27 +7,91 @@
     <title>Maze Runner</title>
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
   </head>
-  <body>
-    <div class="f4 tc measure center bg-light-gray ma1 pa1 lh-copy">
-      <h2 class="mv0">You are the red square</span>
-      <h2 class="mv0">Other players are blue squares</span>
-      <h2 class="mv0">Solve the maze by reaching the gray square</span>
-    </div>
-    <div class="w-100">
-      <canvas id="canvas" class="db center"></canvas>
-    </div>
-    <div id="host-panel" class="w-50 center db tc mv3 dn">
-        <button class="dib mv2" onclick="hostRestart()">Restart</button>
-        <div class="db mv2">
-          <label for="name">Enter Width:</label>
-          <input name="width" id="maze-width" type="number" min="5" max="70"/>
-        </div>
-        <div class="db mv2">
-          <label for="name">Enter Height:</label>
-          <input name="width" id="maze-height" type="number" min="5" max="70"/>
-        </div>
+  <body class="cutivemono pa3">
+    <div
+      id="host-panel"
+      class="w-50 center db tc bg-floralwhite pa3 mv3 dn lh-copy"
+    >
+      <h2 class="tc cutive f3 mv2">Host Panel</h2>
+      <span class="cutive">You are the current host</span>
+      <div class="db mv2">
+        <label for="width">Enter Width:</label>
+        <input name="width" id="maze-width" type="number" min="5" max="70" />
+      </div>
+      <div class="db mv2">
+        <label for="height">Enter Height:</label>
+        <input name="height" id="maze-height" type="number" min="5" max="70" />
+      </div>
+      <div class="db mv2">
+        <label for="radio-use-arrow-keys">Arrow Keys</label>
+        <input type="radio" name="foo" id="radio-use-arrow-keys" checked />
+        <label for="radio-use-voice">Voice</label>
+        <input type="radio" name="foo" id="radio-use-voice" />
+      </div>
+      <button class="dib mv2" onclick="hostRestart()">Restart</button>
     </div>
 
+    <div class="f4 w-50 center bg-floralwhite pa3">
+      <h2 class="tc cutive f3 mv2">Instructions</h2>
+      <ul id="instructions-arrow-keys" class="db pa3">
+        <li>You are the red square</li>
+        <li>Other players are blue squares</li>
+        <li>Be the first to solve the maze by reaching the gray square</li>
+        <li>Use the Arrow keys on your keyboard to move around ←↑↓→</li>
+      </ul>
+      <ul id="instructions-voice" class="dn pa3">
+        <li>You are the red square</li>
+        <li>Other players are blue squares</li>
+        <li>Be the first to solve the maze by reaching the gray square</li>
+        <li>Use your voice to move around the maze</li>
+        <li>Try commands like "DOWN", "GO RIGHT" OR "GO UP"</li>
+      </ul>
+    </div>
+
+    <div id="voice-panel" class="f4 w-50 mv4 center bg-floralwhite pa3 dn">
+      <h2 class="tc cutive f3 mv2">Voice Panel</h2>
+      <div class="tc">
+        <svg
+          version="1.1"
+          id="micon"
+          class="h2 pa2"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 435.2 435.2"
+          style="enable-background: new 0 0 435.2 435.2"
+          xml:space="preserve"
+        >
+          <g>
+            <g>
+              <path
+                d="M356.864,224.768c0-8.704-6.656-15.36-15.36-15.36s-15.36,6.656-15.36,15.36c0,59.904-48.64,108.544-108.544,108.544
+			c-59.904,0-108.544-48.64-108.544-108.544c0-8.704-6.656-15.36-15.36-15.36c-8.704,0-15.36,6.656-15.36,15.36
+			c0,71.168,53.248,131.072,123.904,138.752v40.96h-55.808c-8.704,0-15.36,6.656-15.36,15.36s6.656,15.36,15.36,15.36h142.336
+			c8.704,0,15.36-6.656,15.36-15.36s-6.656-15.36-15.36-15.36H232.96v-40.96C303.616,355.84,356.864,295.936,356.864,224.768z"
+              />
+            </g>
+          </g>
+          <g>
+            <g>
+              <path
+                d="M217.6,0c-47.104,0-85.504,38.4-85.504,85.504v138.752c0,47.616,38.4,85.504,85.504,86.016
+			c47.104,0,85.504-38.4,85.504-85.504V85.504C303.104,38.4,264.704,0,217.6,0z"
+              />
+            </g>
+          </g>
+        </svg>
+        <p id="mic-text" class="w-80 center">
+          Hold Spacebar and say a direction
+        </p>
+        <div id="mic-result" class="w-80 cutive center mt3"></div>
+      </div>
+    </div>
+
+    <div class="w-100 mv3">
+      <canvas id="canvas" class="db center"></canvas>
+    </div>
 
     <script src="script.js"></script>
     <link
@@ -35,6 +99,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css"
       integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w=="
       crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cutive&family=Cutive+Mono&display=swap"
+      rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </body>

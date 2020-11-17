@@ -18,12 +18,14 @@ let io = require("socket.io")(server, {
 io.sockets.on("connection", function (socket) {
   console.log(`${socket.id} has connected`);
   // initial information
-  socket.emit("maze", game.getMaze());
+
   game.addPlayer(socket.id);
+  socket.emit("maze", game.getMaze());
   socket.emit("currentHost", game.getHost());
+  socket.emit("useVoice", game.getUseVoice());
   io.sockets.emit("playerPositions", game.getPlayerPositions());
 
-  socket.on("hostRestart", ({ height, width }) => {
+  socket.on("hostRestart", ({ height, width, useVoice }) => {
     if (socket.id === game.getHost()) {
       console.log(`recieved reset from host [${height},${width}]`);
       const heightIsValid =
@@ -34,9 +36,13 @@ io.sockets.on("connection", function (socket) {
       } else {
         game.reset();
       }
+      if (game.getUseVoice() !== useVoice) {
+        game.setUseVoice(useVoice);
+      }
       io.sockets.emit("maze", game.getMaze());
       io.sockets.emit("playerPositions", game.getPlayerPositions());
       io.sockets.emit("hostRestart");
+      io.sockets.emit("useVoice", game.getUseVoice());
     }
   });
 

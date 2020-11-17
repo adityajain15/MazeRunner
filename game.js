@@ -5,6 +5,7 @@ class Game {
     this.players = {};
     this.host = null;
     this.gameFinished = false;
+    this.useVoice = false;
   }
   addPlayer(id) {
     if (!this.host) {
@@ -48,6 +49,14 @@ class Game {
 
   getPlayerPositions() {
     return this.players;
+  }
+
+  setUseVoice(useVoice) {
+    this.useVoice = useVoice;
+  }
+
+  getUseVoice() {
+    return this.useVoice;
   }
 
   playerCanMove(id, KEY) {

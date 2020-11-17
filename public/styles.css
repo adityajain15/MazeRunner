@@ -1,0 +1,33 @@
+#micon {
+  border: 2px solid black;
+  border-radius: 100%;
+}
+
+.cutivemono {
+  font-family: "Cutive Mono", monospace;
+}
+
+.cutive {
+  font-family: "Cutive", serif;
+}
+
+h2 {
+  margin: 0px;
+}
+li {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+body {
+  background-color: salmon;
+}
+canvas {
+  background-color: white;
+}
+.bg-floralwhite {
+  background-color: floralwhite;
+}
+
+ul {
+  line-height: 1.1;
+}
