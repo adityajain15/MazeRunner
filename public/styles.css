@@ -31,3 +31,13 @@ canvas {
 ul {
   line-height: 1.1;
 }
+
+#announce {
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  opacity: 80%;
+  border: 2px solid black;
+  transform: translate(-50%, -50%);
+}

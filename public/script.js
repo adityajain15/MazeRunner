@@ -98,7 +98,8 @@ socket.on("connect", () => {
     }
   });
 
-  socket.on("hostRestart", (useVoice) => {
+  socket.on("hostRestart", () => {
+    document.getElementById("announce").style.display = "none";
     Game.SOLUTION = undefined;
     Game.HAS_FINISHED = false;
     drawMaze(Game.maze);
@@ -143,7 +144,19 @@ socket.on("connect", () => {
     drawMaze(Game.maze);
   });
   socket.on("announceFinish", ({ winner, solution }) => {
-    console.log(`${winner} has won!`);
+    document.getElementById("announce").style.display = "block";
+    document.getElementById("announce-winner").innerText =
+      winner === socket.id
+        ? `You win!${
+            socket.id === Game.HOST
+              ? ""
+              : " Wait for the host to restart the game"
+          }`
+        : `You lose.${
+            socket.id === Game.HOST
+              ? ""
+              : " Wait for the host to restart the game"
+          }`;
     Game.SOLUTION = solution;
     drawMaze(Game.maze);
   });
