@@ -13,9 +13,8 @@ recognition.continuous = false;
 recognition.interimResults = false;
 
 recognition.onresult = (event) => {
-  const speechResult = event.results[
-    event.results.length - 1
-  ][0].transcript.trim();
+  const speechResult =
+    event.results[event.results.length - 1][0].transcript.trim();
   const splitResult = speechResult.split(" ");
   const micResultNode = document.getElementById("mic-result");
   while (micResultNode.firstChild) {
@@ -84,7 +83,7 @@ function hostRestart() {
   }
 }
 
-const socket = io();
+const socket = io("https://www.sigri.com", { path: "/maze/socket.io" });
 socket.on("connect", () => {
   console.log("Connected to Server");
   socket.on("currentHost", (host) => {
