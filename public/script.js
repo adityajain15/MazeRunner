@@ -83,7 +83,9 @@ function hostRestart() {
   }
 }
 
-const socket = io("https://www.sigri.com", { path: "/maze/socket.io" });
+const socket = io("https://sigri.com", {
+  path: "/maze/socket.io/"
+});
 socket.on("connect", () => {
   console.log("Connected to Server");
   socket.on("currentHost", (host) => {
