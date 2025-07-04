@@ -14,7 +14,7 @@ app.use(express.static("public"));
 // Create socket connection
 let io = require("socket.io")(server, {
   pingTimeout: 60000,
-  path: "/maze/socket.io"
+  path: "/socket.io"
 });
 io.sockets.on("connection", function (socket) {
   console.log(`${socket.id} has connected`);
