@@ -83,7 +83,7 @@ function hostRestart() {
   }
 }
 
-const socket = io("https://sigri.com", {
+const socket = io("https://origin.sigri.com", {
   path: "/maze/socket.io/"
 });
 socket.on("connect", () => {
